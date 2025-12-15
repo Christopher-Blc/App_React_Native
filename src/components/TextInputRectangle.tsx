@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { View, TextInput, StyleSheet, TouchableOpacity } from "react-native";
+import { StyleSheet } from "react-native";
+import { TextInput } from "react-native-paper";
 import { Feather } from "@expo/vector-icons";
 
 interface TextInputRectangleProps {
@@ -13,7 +14,6 @@ interface TextInputRectangleProps {
 
   iconColor?: string;
   iconSize?: number;
-  iconSpacing?: number;
 
   textColor?: string;
   placeholderColor?: string;
@@ -27,77 +27,80 @@ interface TextInputRectangleProps {
 export const TextInputRectangle = ({
   isSecure = false,
 
-  placeholder = isSecure ? "passowrd" : "input text",
+  placeholder = isSecure ? "password" : "input text",
   iconLeft = "mail",
   iconRightShow = "eye",
   iconRightHide = "eye-off",
 
-
   iconColor = "#7d7d7d",
   iconSize = 20,
-  iconSpacing = 12,
 
   textColor = "#333333",
   placeholderColor = "#7d7d7d",
-  borderColor = "#d0d7e2",
   bgColor = "#f7f9fc",
 
+  width = 400,
+  height = 60,
 }: TextInputRectangleProps) => {
   const [hidden, setHidden] = useState(isSecure);
 
   return (
-    <View
+    <TextInput
+      
+      mode="outlined"
+      placeholder={placeholder}
+      placeholderTextColor={placeholderColor}
+      secureTextEntry={isSecure && hidden}
+      activeOutlineColor="#3f60bbff"
+
       style={[
-        styles.container,
-        { backgroundColor: bgColor, borderColor },
+        styles.input,
+        {
+          width,
+          height,
+          color: textColor,
+          backgroundColor: bgColor,
+          
+        },
       ]}
-    >
-      {/* Icono izquierdo */}
-      {iconLeft && (
-        <Feather
-          name={iconLeft}
-          size={iconSize}
-          color={iconColor}
-          style={{ marginRight: iconSpacing }}
-        />
-      )}
 
-      {/* Input */}
-      <TextInput
-        placeholder={placeholder}
-        placeholderTextColor={placeholderColor}
-        secureTextEntry={isSecure && hidden}
-        style={[styles.input, { color: textColor }]}
-      />
-
-      {/* Icono mostrar/ocultar contraseña */}
-      {isSecure && (
-        <TouchableOpacity onPress={() => setHidden(!hidden)}>
-          <Feather
-            name={hidden ? iconRightShow : iconRightHide}
-            size={iconSize}
-            color={iconColor}
+      theme={{
+        roundness: 16,
+      }}
+      left={
+        iconLeft ? (
+          <TextInput.Icon
+            icon={() => (
+              <Feather name={iconLeft} size={iconSize} color={iconColor} />
+            )}
           />
-        </TouchableOpacity>
-      )}
-    </View>
+        ) : null
+      }
+
+      right={
+        isSecure ? (
+          <TextInput.Icon
+            onPress={() => setHidden(!hidden)}
+            icon={() => (
+              <Feather
+                name={hidden ? iconRightShow : iconRightHide}
+                size={iconSize}
+                color={iconColor}
+              />
+            )}
+          />
+        ) : null
+      }
+    />
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    width: 400,
-    padding: 16,
-    margin: 16,
-    elevation: 3,
-    borderRadius: 12,
-    borderWidth: 1.5,
-    flexDirection: "row",
-    alignItems: "center",
-    paddingHorizontal: 15,
-  },
   input: {
-    flex: 1,
     fontSize: 16,
+    borderRadius: 30,
+    paddingLeft: 0,
+    outlineColor: "#d0d7e2",
   },
+ 
 });
