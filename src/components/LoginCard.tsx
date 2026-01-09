@@ -95,15 +95,15 @@ export const LoginCard = () => {
         </Text>
       )}
 
+      <View style={{ marginTop: 20 }} />
+
       {/* Login button */}
-      <View style={{ marginTop: 20 }}>
         <ButtonRectangular
           text="Iniciar Sesión"
           colorBG="#4f46e5"
           colorTxt="#ffffff"
           onPressed={login}
         />
-      </View>
 
       {/* Divider */}
       <View style={styles.dividerRow}>
@@ -121,6 +121,7 @@ export const LoginCard = () => {
         colorTxt="#374151"
         colorBorder="#d1d5db"
         colorIcon="#ea4335"
+
       />
 
       {/* Bottom text */}
@@ -134,14 +135,12 @@ export const LoginCard = () => {
 };
 
 
-
-
 const styles = StyleSheet.create({
   card: {
-    width: "30%",
+    width: "90%",
     padding: 16,
     margin: 16,
-    backgroundColor: "#ffffff",
+    backgroundColor: "#d1d7ff4f",
     borderRadius: 20,
     alignItems: "center",
     elevation: 3,

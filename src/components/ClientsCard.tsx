@@ -16,7 +16,7 @@ export const ClientsCard = ({ name, surname, email, phoneNumber }: ClientsCardPr
       </Text>
 
       <Text style={styles.text}>
-        Correo electrónico: <Text style={styles.content}>{email}</Text>
+        Email: <Text style={styles.content}>{email}</Text>
       </Text>
 
       <Text style={styles.text}>
@@ -28,14 +28,13 @@ export const ClientsCard = ({ name, surname, email, phoneNumber }: ClientsCardPr
 
 const styles = StyleSheet.create({
   card: {
-    width: '100%',          // ✅ en vez de 750
+    width: '100%',          
     padding: 20,
-    marginBottom: 12,       // mejor que margin:16 en listas
+    marginBottom: 12,       
     borderRadius: 14,
     backgroundColor: '#ffffff',
     elevation: 4,
 
-    // ✅ para iOS sombra
     shadowColor: '#000',
     shadowOpacity: 0.08,
     shadowRadius: 8,

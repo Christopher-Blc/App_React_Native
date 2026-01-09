@@ -3,24 +3,35 @@ import { Tabs } from 'expo-router';
 
 export default function AppLayout() {
   return (
-    <Tabs screenOptions={{ headerShown: false }}>
+
+    <Tabs screenOptions={{ 
+      headerShown: true ,
+      headerStyle: { backgroundColor: '#002374ff' }, 
+      headerTintColor: '#ffffff', 
+      
+      tabBarStyle: { backgroundColor: '#002374ff' }, 
+      tabBarActiveTintColor: '#ffffff', 
+      tabBarInactiveTintColor: '#888888'  
+    }}>
       
       {/* HOME */}
       <Tabs.Screen
         name="home"
         options={{
+          title: 'Inicio',
           tabBarLabel: 'Home',
           tabBarIcon: ({ color, size }) => (
             <Feather name="home" color={color} size={size} />
           ),
         }}
       />
+      
 
       {/* CLIENTES → INDEX */}
       <Tabs.Screen
         name="clientes/index"
         options={{
-          title: 'Clientes',   // 👈 AQUÍ está la clave
+          title: 'Clientes',   
           tabBarIcon: ({ color, size }) => (
             <Feather name="users" color={color} size={size} />
           ),
@@ -29,15 +40,19 @@ export default function AppLayout() {
 
       {/* OCULTOS */}
       <Tabs.Screen
+      
         name="clientes/crear"
-        options={{ href: null }}
+        options={{title: "", href: null }}
       />
 
       <Tabs.Screen
         name="clientes/[id]"
-        options={{ href: null }}
+        options={{title:"",href: null }}
       />
 
     </Tabs>
   );
 }
+
+
+

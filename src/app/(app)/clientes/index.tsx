@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from "react";
 import { View, Text, FlatList, StyleSheet, Pressable } from "react-native";
-import { router } from "expo-router";
+import { router, Stack } from "expo-router";
 import { FAB } from "react-native-paper";
 import { useFocusEffect } from "@react-navigation/native";
 import { Cliente } from "../../../data/clientes";
@@ -22,33 +22,36 @@ export default function Clientes() {
   );
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.titleText}>Clientes</Text>
+    <>
+      <Stack.Screen options={{ title:"Clientes" , headerTitleAlign: "center"}} />
+      
+      <View style={styles.container}>
+            <View style={{ marginTop: 20 }} />
+      
+        <FlatList
+          data={lista}
+          keyExtractor={(item) => item.id.toString()}
+          contentContainerStyle={styles.listContent}
+          renderItem={({ item }) => (
+            <Pressable onPress={() => router.push(`/clientes/${item.id}`)}>
+              <ClientsCard
+                name={item.name}
+                surname={item.surname}
+                email={item.email}
+                phoneNumber={item.phoneNumber}
+              />
+            </Pressable>
+          )}
+        />
 
-      <FlatList
-        data={lista}
-        keyExtractor={(item) => item.id.toString()}
-        contentContainerStyle={styles.listContent}
-        renderItem={({ item }) => (
-          <Pressable onPress={() => router.push(`/clientes/${item.id}`)}>
-            <ClientsCard
-              name={item.name}
-              surname={item.surname}
-              email={item.email}
-              phoneNumber={item.phoneNumber}
-            />
-          </Pressable>
-        )}
-      />
-
-      <FAB
-        icon="plus"
-        style={styles.fab}
-        onPress={() => router.push("/clientes/crear")}
-        color="white"
-      />
-    </View>
-  );
+        <FAB
+          icon="plus"
+          style={styles.fab}
+          onPress={() => router.push("/clientes/crear")}
+          color="white"
+        />
+      </View>
+  </>);
 }
 
 const styles = StyleSheet.create({

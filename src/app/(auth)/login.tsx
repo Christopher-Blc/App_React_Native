@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableOpacity, Button } from 'react-native';
+import { StyleSheet, View} from 'react-native';
 import { LoginCard } from '../../components/LoginCard';
 
 export default function App() {
@@ -11,7 +11,7 @@ export default function App() {
 
 const styles = StyleSheet.create({
   screen: {
-    backgroundColor: '#525252ff',
+    backgroundColor: '#ffffff',
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',

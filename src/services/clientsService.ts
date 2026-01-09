@@ -15,6 +15,15 @@ export const clientesService = {
   },
 
   async create(data: Omit<Cliente, "id">): Promise<Cliente> {
+    // comprobar que email y telefono sean unicos
+    if (clientesDb.some((c) => c.email === data.email)) {
+      throw new Error("EMAIL_DUPLICADO");
+    }
+
+    if (clientesDb.some((c) => c.phoneNumber === data.phoneNumber)) {
+      throw new Error("TELEFONO_DUPLICADO");
+    }
+
     const nuevo: Cliente = { id: nextId(), ...data };
     clientesDb = [nuevo, ...clientesDb];
     return nuevo;
@@ -24,9 +33,33 @@ export const clientesService = {
     id: number,
     data: Partial<Omit<Cliente, "id">>
   ): Promise<Cliente | null> {
-    clientesDb = clientesDb.map((c) => (c.id === id ? { ...c, ...data } : c));
-    return clientesDb.find((c) => c.id === id) ?? null;
+
+    //comprobar que el cliente existe
+    const actual = clientesDb.find(c => c.id === id);
+    if (!actual) return null;
+
+    //email duplicado (si se está cambiando y otro lo tiene)
+    if (
+      data.email &&
+      clientesDb.some(c => c.id !== id && c.email === data.email)
+    ) {
+      throw new Error("EMAIL_DUPLICADO");
+    }
+
+    //teléfono duplicado (si se está cambiando y otro lo tiene)
+    if (
+      data.phoneNumber &&
+      clientesDb.some(c => c.id !== id && c.phoneNumber === data.phoneNumber)
+    ) {
+      throw new Error("TELEFONO_DUPLICADO");
+    }
+
+    //actualizar
+    clientesDb = clientesDb.map(c => (c.id === id ? { ...c, ...data } : c));
+
+    return clientesDb.find(c => c.id === id) ?? null;
   },
+
 
   async remove(id: number): Promise<boolean> {
     const before = clientesDb.length;

@@ -20,16 +20,28 @@ export const ButtonRectangular = ({
   text,
   colorBG,
   colorTxt,
-  colorBorder = 'transparent',
+  colorBorder,
   colorIcon = '#ffffff',
   iconSize = 20,
   widthButton = "100%",
   onPressed,
 
 }: ButtonRectangularProps) => {
+  const hasBorder = !!colorBorder;
   return (
     
-    <Pressable style={[styles.button , {backgroundColor: colorBG , borderColor: colorBorder , width: widthButton}]} onPress={onPressed}>
+    <Pressable
+      onPress={onPressed}
+      style={[
+        styles.button,
+        {
+          backgroundColor: colorBG,
+          width: widthButton,
+          borderColor: hasBorder ? colorBorder : "transparent",
+          borderWidth: hasBorder ? 1 : 0,
+        },
+      ]}
+    >
 
         {icon ? <Feather name={icon} color={colorIcon} size={iconSize} style={{ marginRight: 12 }}/> : null}
         <Text style={[styles.buttonText , {color: colorTxt}]}>{text}</Text>
@@ -44,10 +56,9 @@ const styles = StyleSheet.create({
   button: {
     height: 60,
     borderRadius: 12,
-    flexDirection: "row",   // <-- THIS MAKES ICON + TEXT LINE UP LEFT→RIGHT
+    flexDirection: "row",   
     alignItems: 'center',
     justifyContent: 'center',
-    borderWidth: 1,
   },
   buttonText: {
     fontSize: 18,
