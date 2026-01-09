@@ -7,6 +7,10 @@ interface TextInputRectangleProps {
   placeholder?: string;
 
   iconLeft?: keyof typeof Feather.glyphMap;
+
+  iconRight?: keyof typeof Feather.glyphMap;
+  onPressIconRight?: () => void;
+
   iconRightShow?: keyof typeof Feather.glyphMap;
   iconRightHide?: keyof typeof Feather.glyphMap;
 
@@ -22,13 +26,23 @@ interface TextInputRectangleProps {
 
   width?: number | `${number}%`;
   height?: number;
+
+  onChangeText?: (text: string) => void;
+  value?: string;
+
+  keyboardType?: "default" | "email-address" | "phone-pad";
+  autoCapitalize?: "none" | "sentences" | "words" | "characters";
 }
 
 export const TextInputRectangle = ({
   isSecure = false,
 
   placeholder = isSecure ? "password" : "input text",
-  iconLeft = "mail",
+  iconLeft,
+
+  iconRight,
+  onPressIconRight,
+
   iconRightShow = "eye",
   iconRightHide = "eye-off",
 
@@ -39,20 +53,28 @@ export const TextInputRectangle = ({
   placeholderColor = "#7d7d7d",
   bgColor = "#f7f9fc",
 
-  width = 400,
+  width = "100%",
   height = 60,
+
+  onChangeText,
+  value,
+
+  keyboardType = "default",
+  autoCapitalize = "sentences",
 }: TextInputRectangleProps) => {
   const [hidden, setHidden] = useState(isSecure);
 
   return (
     <TextInput
-      
       mode="outlined"
       placeholder={placeholder}
       placeholderTextColor={placeholderColor}
       secureTextEntry={isSecure && hidden}
       activeOutlineColor="#3f60bbff"
-
+      onChangeText={onChangeText}
+      value={value}
+      keyboardType={keyboardType}
+      autoCapitalize={autoCapitalize}
       style={[
         styles.input,
         {
@@ -60,13 +82,9 @@ export const TextInputRectangle = ({
           height,
           color: textColor,
           backgroundColor: bgColor,
-          
         },
       ]}
-
-      theme={{
-        roundness: 16,
-      }}
+      theme={{ roundness: 16 }}
       left={
         iconLeft ? (
           <TextInput.Icon
@@ -76,7 +94,6 @@ export const TextInputRectangle = ({
           />
         ) : null
       }
-
       right={
         isSecure ? (
           <TextInput.Icon
@@ -87,6 +104,13 @@ export const TextInputRectangle = ({
                 size={iconSize}
                 color={iconColor}
               />
+            )}
+          />
+        ) : iconRight ? (
+          <TextInput.Icon
+            onPress={onPressIconRight}
+            icon={() => (
+              <Feather name={iconRight} size={iconSize} color={iconColor} />
             )}
           />
         ) : null
@@ -102,5 +126,4 @@ const styles = StyleSheet.create({
     paddingLeft: 0,
     outlineColor: "#d0d7e2",
   },
- 
 });

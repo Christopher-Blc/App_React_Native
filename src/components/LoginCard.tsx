@@ -1,13 +1,51 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { ButtonRectangular } from "./ButtonRectangular";
 import { Feather } from "@expo/vector-icons";
 import { TextInputRectangle } from "./TextInputRectangle";
+import { useRouter } from "expo-router";
+
+
+
 
 //para este he gastado un poco el chat y para lo de password tamb pero lo demas
 //si que es picado por mi
 export const LoginCard = () => {
+  const router = useRouter();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+
+  const validar = () => {
+    let valido = true;
+
+    if (!email.includes("@")) {
+      setEmailError("El email no es válido");
+      valido = false;
+    } else {
+      setEmailError("");
+    }
+
+    if (password.length < 8) {
+      setPasswordError("La contraseña debe tener al menos 8 caracteres");
+      valido = false;
+    } else {
+      setPasswordError("");
+    }
+
+    return valido;
+  };
+  
+  const login = () => {
+    if (!validar()) return;
+
+    router.replace("/home");
+  };
+
   return (
+    
     <View style={styles.card}>
 
       {/* Top Icon */}
@@ -29,7 +67,14 @@ export const LoginCard = () => {
       <TextInputRectangle
         placeholder="nombre@ejemplo.com"
         iconLeft="mail"
+        onChangeText={setEmail}
       />
+
+      {emailError !== "" && (
+        <Text style={{ color: "red", alignSelf: "flex-start" }}>
+          {emailError}
+        </Text>
+      )}
 
 
       {/* Forgot password row */}
@@ -41,7 +86,14 @@ export const LoginCard = () => {
       <TextInputRectangle
         iconLeft="lock"
         isSecure={true}
+        onChangeText={setPassword}
       />
+
+      {passwordError !== "" && (
+        <Text style={{ color: "red", alignSelf: "flex-start" }}>
+          {passwordError}
+        </Text>
+      )}
 
       {/* Login button */}
       <View style={{ marginTop: 20 }}>
@@ -49,6 +101,7 @@ export const LoginCard = () => {
           text="Iniciar Sesión"
           colorBG="#4f46e5"
           colorTxt="#ffffff"
+          onPressed={login}
         />
       </View>
 
@@ -77,7 +130,11 @@ export const LoginCard = () => {
 
     </View>
   );
+  
 };
+
+
+
 
 const styles = StyleSheet.create({
   card: {
